@@ -3,6 +3,25 @@ import path from "path";
 import { Telegraf, Markup } from "telegraf";
 import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
+import serveIndex from "serve-index";
+
+import cors from "cors";
+import express from "express";
+const app = express();
+app.use(cors());
+
+const uploadsPath = path.join(__dirname, "../uploads");
+
+app.use(
+  "/uploads",
+  express.static(uploadsPath),
+  serveIndex(uploadsPath, { icons: true })
+);
+
+// app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+app.listen(3001, () => {
+	console.log("Server is running on port 3001");
+})
 
 dotenv.config();
 
